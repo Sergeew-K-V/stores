@@ -3,11 +3,11 @@ import Image from 'next/image';
 
 interface IMovieCardProps {
   movie: IMovie;
-  addToBucket: (id: number) => void;
-  addToFavorites: (id: number) => void;
+  bucketAction: (id: number) => void;
+  favoriteAction: (id: number) => void;
 }
 
-const MovieCard = ({ movie, addToBucket, addToFavorites }: IMovieCardProps) => {
+const MovieCard = ({ movie, favoriteAction, bucketAction }: IMovieCardProps) => {
   return (
     <div key={movie.id} className="bg-white rounded-lg shadow-md overflow-hidden">
       <Image src={movie.image} alt={movie.title} className="w-full h-48 object-cover" width={200} height={200} />
@@ -16,7 +16,7 @@ const MovieCard = ({ movie, addToBucket, addToFavorites }: IMovieCardProps) => {
         <p className="text-gray-700 mb-4">{movie.description}</p>
         <div className="flex space-x-2">
           <button
-            onClick={() => addToBucket(movie.id)}
+            onClick={() => bucketAction(movie.id)}
             className={`flex-1 py-2 rounded-md ${
               movie.isInBucket ? 'bg-gray-500 text-white' : 'bg-blue-500 text-white hover:bg-blue-600'
             }`}
@@ -24,7 +24,7 @@ const MovieCard = ({ movie, addToBucket, addToFavorites }: IMovieCardProps) => {
             {movie.isInBucket ? 'Remove from Bucket' : 'Add to Bucket'}
           </button>
           <button
-            onClick={() => addToFavorites(movie.id)}
+            onClick={() => favoriteAction(movie.id)}
             className={`flex-1 py-2 rounded-md ${
               movie.isFavorite ? 'bg-yellow-500 text-white' : 'bg-green-500 text-white hover:bg-green-600'
             }`}

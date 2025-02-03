@@ -1,26 +1,24 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { IUser } from '@/types';
-import { API_URL } from '@/constants/api';
+import registerUser from '@/api/user/register';
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!API_URL) return;
-
-    const payload: Omit<IUser, 'id'> = { email, password };
 
     try {
-      await fetch(`${API_URL}/user`, {
-        headers: { 'Content-Type': 'application/json' },
-        method: 'POST',
-        body: JSON.stringify(payload),
-      });
+      const user = await registerUser({ email, password });
+
+      if (!user) return;
+
+      router.push('/auth/login');
     } catch (error) {
       console.error('~~~~~~~~:', error);
     }

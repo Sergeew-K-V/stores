@@ -5,10 +5,11 @@ export interface IUser {
 }
 
 export interface IMovie {
-  id: number;
+  id: string;
   title: string;
   description: string;
   image: string;
   isInBucket: boolean;
   isFavorite: boolean;
 }
+

@@ -2,8 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { IUser } from '@/types';
-import { API_URL } from '@/constants/api';
+import loginUser from '@/api/user/login';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -13,17 +12,11 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_URL}/user?email=${email}`, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await loginUser(email, password);
 
       if (!response) return;
 
-      const candidates = (await response.json()) as IUser[];
-
-      if (email === candidates[0].email) {
-        router.push('/movies');
-      }
+      router.push('/movies');
     } catch (error) {
       console.error('~~~~~~~~:', error);
     }
